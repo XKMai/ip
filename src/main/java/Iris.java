@@ -82,7 +82,29 @@ public class Iris {
         }
         echo("Here are your tasks:");
         for (int i = 0; i < tasks.size(); i++) {
-            echo((i + 1) + ". " + tasks.get(i));
+        }
+    }
+
+    private static void markTask(String indexStr, boolean done) {
+        try {
+            int index = Integer.parseInt(indexStr.trim()) - 1;
+            if (index < 0 || index >= tasks.size()) {
+                echo("Invalid task number.");
+                return;
+            }
+            Task task = tasks.get(index);
+
+            if (done) {
+                task.markDone();
+                echo("Nice! I've marked this task as done:");
+                echo("  " + task);
+            } else {
+                task.markUndone();
+                echo("OK, I've marked this task as not done yet:");
+                echo("  " + task);
+            }
+        } catch (NumberFormatException e) {
+            echo("Invalid number format.");
         }
     }
 
