@@ -7,27 +7,23 @@ public class Iris {
     private static List<Task> tasks = new ArrayList<>();
 
     // Static nested class
-    private static class Task {
-        private String description;
-        private boolean isDone;
+    private static abstract class Task {
+        protected String description; 
+        protected boolean isDone;
 
         public Task(String description) {
             this.description = description;
             this.isDone = false;
         }
 
-        public void markDone() {
-            isDone = true;
+        public void markDone() { isDone = true; }
+        public void markUndone() { isDone = false; }
+
+        protected String getStatusIcon() {
+            return isDone ? "[X]" : "[ ]";
         }
 
-        public void markUndone() {
-            isDone = false;
-        }
-
-        @Override
-        public String toString() {
-            return (isDone ? "[X] " : "[ ] ") + description;
-        }
+        public abstract String toString();
     }
 
     private static class Todo extends Task {
