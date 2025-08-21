@@ -172,6 +172,14 @@ public class Iris {
                 }
                 break;
 
+            case "delete":
+                if (parts.length < 2) {
+                    throw new IrisException("Please specify a task number to delete.");
+                } else {
+                    deleteTask(parts[1]);
+                }
+                break;
+
             default:
                 throw new IrisException("Unknown command.");
         }
