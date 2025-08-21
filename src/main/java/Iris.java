@@ -38,6 +38,11 @@ public class Iris {
             echo(message);
             String response = scanner.nextLine();
             input(response);
+
+    private static void addTask(String task) {
+        tasks.add(task);
+        echo("Added: " + task);
+    }
             return;
         }
     }
