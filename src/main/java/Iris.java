@@ -12,5 +12,8 @@ public class Iris {
 
         //Exit Message
         System.out.println("Bye. Hope to see you again soon!");
+
+    private static void echo(String message) {
+        System.out.println(message);
     }
 }
