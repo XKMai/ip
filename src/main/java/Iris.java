@@ -107,7 +107,7 @@ public class Iris {
 
             case "mark":
                 if (parts.length < 2) {
-                    echo("Please specify a task number to mark.");
+                    System.out.println("Please specify a task number to mark.");
                 } else {
                     markTask(parts[1], true);
                 }
@@ -115,15 +115,54 @@ public class Iris {
 
             case "unmark":
                 if (parts.length < 2) {
-                    echo("Please specify a task number to unmark.");
+                    System.out.println("Please specify a task number to unmark.");
                 } else {
                     markTask(parts[1], false);
                 }
                 break;
 
-            default:
-                addTask(message);
+            case "todo":
+                if (parts.length < 2) {
+                    System.out.println("The description of a todo cannot be empty.");
+                } else {
+                    addTask(new Todo(parts[1]));
+                }
                 break;
+
+            case "deadline":
+                if (parts.length < 2) {
+                    System.out.println("The description of a deadline cannot be empty.");
+                } else {
+                    String[] deadlineParts = parts[1].split("/by", 2);
+                    if (deadlineParts.length < 2) {
+                        System.out.println("Deadline must include /by <time>.");
+                    } else {
+                        addTask(new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim()));
+                    }
+                }
+                break;
+
+            case "event":
+                if (parts.length < 2) {
+                    System.out.println("The description of an event cannot be empty.");
+                } else {
+                    String[] fromSplit = parts[1].split("/from", 2);
+                    if (fromSplit.length < 2) {
+                        System.out.println("Event must include /from and /to.");
+                    } else {
+                        String desc = fromSplit[0].trim();
+                        String[] toSplit = fromSplit[1].split("/to", 2);
+                        if (toSplit.length < 2) {
+                            System.out.println("Event must include /to.");
+                        } else {
+                            addTask(new Event(desc, toSplit[0].trim(), toSplit[1].trim()));
+                        }
+                    }
+                }
+                break;
+
+            default:
+                System.out.println("I don't understand that command.");
         }
         return true;
     }
