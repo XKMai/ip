@@ -102,7 +102,6 @@ public class Iris {
     private static boolean input(String message) throws IrisException {
         if (message == null || message.isEmpty()) {
             throw new IrisException("Input cannot be empty.");
-            return true;
         }
 
         String[] parts = message.split(" ", 2);
