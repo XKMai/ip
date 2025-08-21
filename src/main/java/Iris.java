@@ -95,9 +95,9 @@ public class Iris {
     }
 
     // return false if we should exit
-    private static boolean input(String message) {
+    private static boolean input(String message) throws IrisException {
         if (message == null || message.isEmpty()) {
-            System.out.println("Input cannot be empty.");
+            throw new IrisException("Input cannot be empty.");
             return true;
         }
 
@@ -115,7 +115,7 @@ public class Iris {
 
             case "mark":
                 if (parts.length < 2) {
-                    System.out.println("Please specify a task number to mark.");
+                    throw new IrisException("Please specify a task number to mark.");
                 } else {
                     markTask(parts[1], true);
                 }
@@ -123,7 +123,7 @@ public class Iris {
 
             case "unmark":
                 if (parts.length < 2) {
-                    System.out.println("Please specify a task number to unmark.");
+                    throw new IrisException("Please specify a task number to unmark.");
                 } else {
                     markTask(parts[1], false);
                 }
@@ -131,7 +131,7 @@ public class Iris {
 
             case "todo":
                 if (parts.length < 2) {
-                    System.out.println("The description of a todo cannot be empty.");
+                    throw new IrisException("The description of a todo cannot be empty.");
                 } else {
                     addTask(new Todo(parts[1]));
                 }
@@ -139,11 +139,11 @@ public class Iris {
 
             case "deadline":
                 if (parts.length < 2) {
-                    System.out.println("The description of a deadline cannot be empty.");
+                    throw new IrisException("The description of a deadline cannot be empty.");
                 } else {
                     String[] deadlineParts = parts[1].split("/by", 2);
                     if (deadlineParts.length < 2) {
-                        System.out.println("Deadline must include /by <time>.");
+                        throw new IrisException("Deadline must include /by <time>.");
                     } else {
                         addTask(new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim()));
                     }
@@ -152,16 +152,16 @@ public class Iris {
 
             case "event":
                 if (parts.length < 2) {
-                    System.out.println("The description of an event cannot be empty.");
+                    throw new IrisException("The description of an event cannot be empty.");
                 } else {
                     String[] fromSplit = parts[1].split("/from", 2);
                     if (fromSplit.length < 2) {
-                        System.out.println("Event must include /from and /to.");
+                        throw new IrisException("Event must include /from and /to.");
                     } else {
                         String desc = fromSplit[0].trim();
                         String[] toSplit = fromSplit[1].split("/to", 2);
                         if (toSplit.length < 2) {
-                            System.out.println("Event must include /to.");
+                            throw new IrisException("Event must include /to.");
                         } else {
                             addTask(new Event(desc, toSplit[0].trim(), toSplit[1].trim()));
                         }
@@ -170,7 +170,7 @@ public class Iris {
                 break;
 
             default:
-                System.out.println("I don't understand that command.");
+                throw new IrisException("I don't understand that command.");
         }
         return true;
     }
