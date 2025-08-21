@@ -4,7 +4,31 @@ import java.util.ArrayList;
 
 public class Iris {
     private static Scanner scanner = new Scanner(System.in);
-    private static List<String> tasks = new ArrayList<>();
+    private static List<Task> tasks = new ArrayList<>();
+
+    // Static nested class
+    private static class Task {
+        private String description;
+        private boolean isDone;
+
+        public Task(String description) {
+            this.description = description;
+            this.isDone = false;
+        }
+
+        public void markDone() {
+            isDone = true;
+        }
+
+        public void markUndone() {
+            isDone = false;
+        }
+
+        @Override
+        public String toString() {
+            return (isDone ? "[X] " : "[ ] ") + description;
+        }
+    }
 
     public static void main(String[] args) {
         //Initializing
