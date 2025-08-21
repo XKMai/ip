@@ -167,9 +167,11 @@ public class Iris {
         return true;
     }
 
-    private static void addTask(String task) {
-        tasks.add(new Task(task));
-        echo("Added: " + task);
+        private static void addTask(Task task) {
+        tasks.add(task);
+        System.out.println("Got it. I've added this task:");
+        System.out.println("  " + task);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 
     private static void listTasks() {
