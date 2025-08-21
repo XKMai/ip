@@ -93,7 +93,7 @@ public class Iris {
                 String response = scanner.nextLine();
                 if (!input(response)) break;
             } catch (IrisException e) {
-                System.out.println("OOPS!!! " + e.getMessage());
+                System.out.println("Error! " + e.getMessage());
             }
         }
     }
@@ -134,7 +134,7 @@ public class Iris {
 
             case "todo":
                 if (parts.length < 2) {
-                    throw new IrisException("The description of a todo cannot be empty.");
+                    throw new IrisException("Empty description for Todo task.");
                 } else {
                     addTask(new Todo(parts[1]));
                 }
@@ -142,7 +142,7 @@ public class Iris {
 
             case "deadline":
                 if (parts.length < 2) {
-                    throw new IrisException("The description of a deadline cannot be empty.");
+                    throw new IrisException("Empty description for Deadline task.");
                 } else {
                     String[] deadlineParts = parts[1].split("/by", 2);
                     if (deadlineParts.length < 2) {
@@ -155,7 +155,7 @@ public class Iris {
 
             case "event":
                 if (parts.length < 2) {
-                    throw new IrisException("The description of an event cannot be empty.");
+                    throw new IrisException("Empty description for Event task.");
                 } else {
                     String[] fromSplit = parts[1].split("/from", 2);
                     if (fromSplit.length < 2) {
@@ -173,7 +173,7 @@ public class Iris {
                 break;
 
             default:
-                throw new IrisException("I don't understand that command.");
+                throw new IrisException("Unknown command.");
         }
         return true;
     }
