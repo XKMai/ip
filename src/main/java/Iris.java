@@ -176,12 +176,12 @@ public class Iris {
 
     private static void listTasks() {
         if (tasks.isEmpty()) {
-            echo("No tasks in the list.");
+            System.out.println("No tasks in the list.");
             return;
         }
-        echo("Here are the tasks in your list:");
+        System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            echo((i + 1) + "." + tasks.get(i));
+            System.out.println((i + 1) + "." + tasks.get(i));
         }
     }
 
