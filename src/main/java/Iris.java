@@ -217,4 +217,19 @@ public class Iris {
             System.out.println("Invalid number format.");
         }
     }
+
+    private static void deleteTask(String indexStr) throws IrisException {
+        try {
+            int index = Integer.parseInt(indexStr.trim()) - 1;
+            if (index < 0 || index >= tasks.size()) {
+                throw new IrisException("Invalid task number.");
+            }
+            Task removed = tasks.remove(index);
+            System.out.println("Noted. I've removed this task:");
+            System.out.println("  " + removed);
+            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        } catch (NumberFormatException e) {
+            throw new IrisException("Invalid number format for delete command.");
+        }
+    }
 }
