@@ -43,7 +43,15 @@ public class Iris {
         tasks.add(task);
         echo("Added: " + task);
     }
+
+    private static void listTasks() {
+        if (tasks.isEmpty()) {
+            echo("No tasks in the list.");
             return;
+        }
+        echo("Here are your tasks:");
+        for (int i = 0; i < tasks.size(); i++) {
+            echo((i + 1) + ". " + tasks.get(i));
         }
     }
 
