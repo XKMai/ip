@@ -31,47 +31,68 @@ public class Iris {
     }
 
     public static void main(String[] args) {
-        //Initializing
+        // Initializing
         String logo = ".___       .__        \n"
                 + "|   |______|__| ______\n"
                 + "|   \\_  __ \\  |/  ___/\n"
                 + "|   ||  | \\/  |\\___ \\ \n"
                 + "|___||__|  |__/____  >\n"
                 + "                   \\/ \n";
-        
 
-        //Welcome Message
+        // Welcome Message
         System.out.println("Hello! I'm\n" + logo);
         System.out.println("What can I do for you?");
 
-        String response = scanner.nextLine();
-        input(response);
+        while (true) {
+            String response = scanner.nextLine();
+            if (!input(response)) break;
+        }
     }
 
-    private static void input(String message) {
+    // return false if we should exit
+    private static boolean input(String message) {
         if (message == null || message.isEmpty()) {
             System.out.println("Input cannot be empty.");
-            return;
+            return true;
         }
-        switch (message){
+
+        String[] parts = message.split(" ", 2);
+        String command = parts[0];
+
+        switch (command) {
             case "bye":
-                //Exit Message
                 System.out.println("Bye. Hope to see you again soon!");
-                return;
+                return false;
+
             case "list":
                 listTasks();
                 break;
+
+            case "mark":
+                if (parts.length < 2) {
+                    echo("Please specify a task number to mark.");
+                } else {
+                    markTask(parts[1], true);
+                }
+                break;
+
+            case "unmark":
+                if (parts.length < 2) {
+                    echo("Please specify a task number to unmark.");
+                } else {
+                    markTask(parts[1], false);
+                }
+                break;
+
             default:
                 addTask(message);
                 break;
         }
-        String response = scanner.nextLine();
-        input(response);
-        return;
+        return true;
     }
 
     private static void addTask(String task) {
-        tasks.add(task);
+        tasks.add(new Task(task));
         echo("Added: " + task);
     }
 
@@ -80,8 +101,9 @@ public class Iris {
             echo("No tasks in the list.");
             return;
         }
-        echo("Here are your tasks:");
+        echo("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
+            echo((i + 1) + "." + tasks.get(i));
         }
     }
 
@@ -109,6 +131,6 @@ public class Iris {
     }
 
     private static void echo(String message) {
-        System.out.println(message);
+        System.out.println("    " + message);
     }
 }
