@@ -29,15 +29,22 @@ public class Iris {
             System.out.println("Input cannot be empty.");
             return;
         }
-        else if (message.equals("bye")) {
-            //Exit Message
-            System.out.println("Bye. Hope to see you again soon!");
-            return;
+        switch (message){
+            case "bye":
+                //Exit Message
+                System.out.println("Bye. Hope to see you again soon!");
+                return;
+            case "list":
+                listTasks();
+                break;
+            default:
+                addTask(message);
+                break;
         }
-        else{
-            echo(message);
-            String response = scanner.nextLine();
-            input(response);
+        String response = scanner.nextLine();
+        input(response);
+        return;
+    }
 
     private static void addTask(String task) {
         tasks.add(task);
