@@ -119,17 +119,15 @@ public class Iris {
             case "mark":
                 if (parts.length < 2) {
                     throw new IrisException("Please specify a task number to mark.");
-                } else {
-                    markTask(parts[1], true);
                 }
+                markTask(parts[1], true);
                 break;
 
             case "unmark":
                 if (parts.length < 2) {
                     throw new IrisException("Please specify a task number to unmark.");
-                } else {
-                    markTask(parts[1], false);
                 }
+                markTask(parts[1], false);
                 break;
 
             case "todo":
@@ -204,12 +202,11 @@ public class Iris {
         }
     }
 
-    private static void markTask(String indexStr, boolean done) {
+    private static void markTask(String indexStr, boolean done) throws IrisException {
         try {
             int index = Integer.parseInt(indexStr.trim()) - 1;
             if (index < 0 || index >= tasks.size()) {
-                System.out.println("Invalid task number.");
-                return;
+                throw new IrisException("Invalid task number.");
             }
             Task task = tasks.get(index);
             if (done) {
@@ -222,9 +219,10 @@ public class Iris {
                 System.out.println("  " + task);
             }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid number format.");
+            throw new IrisException("Invalid number format for mark/unmark command.");
         }
     }
+
 
     private static void deleteTask(String indexStr) throws IrisException {
         try {
