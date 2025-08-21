@@ -30,6 +30,17 @@ public class Iris {
         }
     }
 
+    private static class Todo extends Task {
+        public Todo(String description) {
+            super(description);
+        }
+
+        @Override
+        public String toString() {
+            return "[T]" + getStatusIcon() + " " + description;
+        }
+    }
+
     public static void main(String[] args) {
         // Initializing
         String logo = ".___       .__        \n"
