@@ -67,6 +67,14 @@ public class Iris {
         }
     }
 
+    // custom exception
+    private static class IrisException extends Exception {
+        public IrisException(String message) {
+            super(message);
+        }
+    }
+
+
     public static void main(String[] args) {
         // Initializing
         String logo = ".___       .__        \n"
