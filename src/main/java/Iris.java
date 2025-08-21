@@ -1,7 +1,10 @@
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Iris {
     private static Scanner scanner = new Scanner(System.in);
+    private static List<String> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         //Initializing
