@@ -89,8 +89,12 @@ public class Iris {
         System.out.println("What can I do for you?");
 
         while (true) {
-            String response = scanner.nextLine();
-            if (!input(response)) break;
+            try {
+                String response = scanner.nextLine();
+                if (!input(response)) break;
+            } catch (IrisException e) {
+                System.out.println("OOPS!!! " + e.getMessage());
+            }
         }
     }
 
