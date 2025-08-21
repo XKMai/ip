@@ -41,6 +41,20 @@ public class Iris {
         }
     }
 
+    private static class Deadline extends Task {
+        private String by;
+
+        public Deadline(String description, String by) {
+            super(description);
+            this.by = by;
+        }
+
+        @Override
+        public String toString() {
+            return "[D]" + getStatusIcon() + " " + description + " (by: " + by + ")";
+        }
+    }
+
     public static void main(String[] args) {
         // Initializing
         String logo = ".___       .__        \n"
