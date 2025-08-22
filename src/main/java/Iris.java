@@ -67,7 +67,7 @@ public class Iris {
         }
     }
 
-    // custom exception
+    // Custom exception
     private static class IrisException extends Exception {
         public IrisException(String message) {
             super(message);
@@ -100,7 +100,7 @@ public class Iris {
         }
     }
 
-    // return false if we should exit
+    // Return false if we should exit
     private static boolean input(String message) throws IrisException {
         if (message == null || message.isEmpty()) {
             throw new IrisException("Input cannot be empty.");
@@ -244,6 +244,8 @@ public class Iris {
         }
     }
 
+    // Prints a line for better readability in the console
+    // May use more in the future
     private static void printLine() {
         System.out.println("____________________________________________________________");
     }
