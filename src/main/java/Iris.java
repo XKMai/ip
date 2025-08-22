@@ -85,8 +85,10 @@ public class Iris {
                 + "                   \\/ \n";
 
         // Welcome Message
+        printLine();
         System.out.println("Hello! I'm\n" + logo);
         System.out.println("What can I do for you?");
+        printLine();
 
         while (true) {
             try {
@@ -240,5 +242,9 @@ public class Iris {
         } catch (NumberFormatException e) {
             throw new IrisException("Invalid number format for delete command.");
         }
+    }
+
+    private static void printLine() {
+        System.out.println("____________________________________________________________");
     }
 }
