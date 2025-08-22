@@ -184,6 +184,7 @@ public class Iris {
         return true;
     }
 
+    // Adds a task to the list and prints confirmation
     private static void addTask(Task task) {
         tasks.add(task);
         System.out.println("Got it. I've added this task:");
@@ -191,6 +192,7 @@ public class Iris {
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 
+    // Lists all tasks in the list
     private static void listTasks() {
         if (tasks.isEmpty()) {
             System.out.println("No tasks in the list.");
@@ -202,6 +204,7 @@ public class Iris {
         }
     }
 
+    // Marks a task as done or undone based on the command
     private static void markTask(String indexStr, boolean done) throws IrisException {
         try {
             int index = Integer.parseInt(indexStr.trim()) - 1;
@@ -223,7 +226,7 @@ public class Iris {
         }
     }
 
-
+    // Deletes a task from the list based on the index provided
     private static void deleteTask(String indexStr) throws IrisException {
         try {
             int index = Integer.parseInt(indexStr.trim()) - 1;
