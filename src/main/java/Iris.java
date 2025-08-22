@@ -184,7 +184,7 @@ public class Iris {
         return true;
     }
 
-        private static void addTask(Task task) {
+    private static void addTask(Task task) {
         tasks.add(task);
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
