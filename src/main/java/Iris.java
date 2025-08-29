@@ -6,6 +6,9 @@ import java.io.IOException;  // Import the IOException class to handle errors
 import java.io.FileWriter;   // Import the FileWriter class to write to files
 
 public class Iris {
+    private static final String DATA_DIR = "./data";
+    private static final String DATA_FILE = "./data/iris.txt";
+    
     private static Scanner scanner = new Scanner(System.in);
     private static List<Task> tasks = new ArrayList<>();
 
