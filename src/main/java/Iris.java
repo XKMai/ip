@@ -12,7 +12,7 @@ public class Iris {
     private static Scanner scanner = new Scanner(System.in);
     private static List<Task> tasks = new ArrayList<>();
 
-    // Static nested class
+    // Static nested classes
     private static abstract class Task {
         protected String description; 
         protected boolean isDone;
@@ -98,6 +98,7 @@ public class Iris {
     }
 
 
+    //Main method
     public static void main(String[] args) {
         // Initializing
         String logo = ".___       .__        \n"
@@ -123,6 +124,8 @@ public class Iris {
             }
         }
     }
+
+    // ========== Command Handlers ==========
 
     // Return false if we should exit
     private static boolean input(String message) throws IrisException {
