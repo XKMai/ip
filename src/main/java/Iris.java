@@ -106,6 +106,7 @@ public class Iris {
                 + "|   ||  | \\/  |\\___ \\ \n"
                 + "|___||__|  |__/____  >\n"
                 + "                   \\/ \n";
+        loadTasks();
 
         // Welcome Message
         printLine();
