@@ -1,6 +1,9 @@
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.File;  // Import the File class
+import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.FileWriter;   // Import the FileWriter class to write to files
 
 public class Iris {
     private static Scanner scanner = new Scanner(System.in);
