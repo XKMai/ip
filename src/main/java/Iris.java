@@ -273,6 +273,26 @@ public class Iris {
         }
     }
 
+    private static void loadTasks() {
+        File file = new File(DATA_FILE);
+        if (!file.exists()) {
+            return;
+        }
+
+        try (Scanner fileScanner = new Scanner(file)) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                try {
+                    parseTask(line);
+                } catch (Exception e) {
+                    System.out.println("Skipping corrupted line: " + line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading tasks: " + e.getMessage());
+        }
+    }
+
     private static void parseTask(String line) {
         String[] parts = line.split(" \\| ");
         String type = parts[0];
