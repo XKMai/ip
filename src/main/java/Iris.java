@@ -30,6 +30,8 @@ public class Iris {
         }
 
         public abstract String toString();
+
+        public abstract String toSaveFormat();
     }
 
     private static class Todo extends Task {
@@ -40,6 +42,11 @@ public class Iris {
         @Override
         public String toString() {
             return "[T]" + getStatusIcon() + " " + description;
+        }
+        
+        @Override
+        public String toSaveFormat() {
+            return "T | " + (isDone ? "1" : "0") + " | " + description;
         }
     }
 
@@ -54,6 +61,11 @@ public class Iris {
         @Override
         public String toString() {
             return "[D]" + getStatusIcon() + " " + description + " (by: " + by + ")";
+        }
+
+        @Override
+        public String toSaveFormat() {
+            return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by;
         }
     }
 
@@ -70,6 +82,11 @@ public class Iris {
         @Override
         public String toString() {
             return "[E]" + getStatusIcon() + " " + description + " (from: " + from + " to: " + to + ")";
+        }
+
+        @Override
+        public String toSaveFormat() {
+            return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + " | " + to;
         }
     }
 
