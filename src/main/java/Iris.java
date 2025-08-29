@@ -255,4 +255,21 @@ public class Iris {
     private static void printLine() {
         System.out.println("____________________________________________________________");
     }
+
+    private static void saveTasks() {
+        try {
+            File dir = new File(DATA_DIR);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            FileWriter writer = new FileWriter(DATA_FILE);
+            for (Task task : tasks) {
+                writer.write(task.toSaveFormat() + System.lineSeparator());
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
 }
