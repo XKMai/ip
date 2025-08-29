@@ -212,6 +212,7 @@ public class Iris {
     // Adds a task to the list and prints confirmation
     private static void addTask(Task task) {
         tasks.add(task);
+        saveTasks();
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -249,6 +250,9 @@ public class Iris {
         } catch (NumberFormatException e) {
             throw new IrisException("Invalid number format for mark/unmark command.");
         }
+        finally {
+            saveTasks();
+        }
     }
 
     // Deletes a task from the list based on the index provided
@@ -264,6 +268,9 @@ public class Iris {
             System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         } catch (NumberFormatException e) {
             throw new IrisException("Invalid number format for delete command.");
+        }
+        finally {
+            saveTasks();
         }
     }
 
