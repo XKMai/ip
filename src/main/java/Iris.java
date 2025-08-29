@@ -272,4 +272,28 @@ public class Iris {
             System.out.println("Error saving tasks: " + e.getMessage());
         }
     }
+
+    private static void parseTask(String line) {
+        String[] parts = line.split(" \\| ");
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+
+        switch (type) {
+            case "T":
+                Todo todo = new Todo(parts[2]);
+                if (isDone) todo.markDone();
+                tasks.add(todo);
+                break;
+            case "D":
+                Deadline dl = new Deadline(parts[2], parts[3]);
+                if (isDone) dl.markDone();
+                tasks.add(dl);
+                break;
+            case "E":
+                Event ev = new Event(parts[2], parts[3], parts[4]);
+                if (isDone) ev.markDone();
+                tasks.add(ev);
+                break;
+        }
+    }
 }
