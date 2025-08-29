@@ -1,12 +1,18 @@
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.File;  // Import the File class
+import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.FileWriter;   // Import the FileWriter class to write to files
 
 public class Iris {
+    private static final String DATA_DIR = "./data";
+    private static final String DATA_FILE = "./data/iris.txt";
+    
     private static Scanner scanner = new Scanner(System.in);
     private static List<Task> tasks = new ArrayList<>();
 
-    // Static nested class
+    // Static nested classes
     private static abstract class Task {
         protected String description; 
         protected boolean isDone;
@@ -24,6 +30,8 @@ public class Iris {
         }
 
         public abstract String toString();
+
+        public abstract String toSaveFormat();
     }
 
     private static class Todo extends Task {
@@ -34,6 +42,11 @@ public class Iris {
         @Override
         public String toString() {
             return "[T]" + getStatusIcon() + " " + description;
+        }
+        
+        @Override
+        public String toSaveFormat() {
+            return "T | " + (isDone ? "1" : "0") + " | " + description;
         }
     }
 
@@ -48,6 +61,11 @@ public class Iris {
         @Override
         public String toString() {
             return "[D]" + getStatusIcon() + " " + description + " (by: " + by + ")";
+        }
+
+        @Override
+        public String toSaveFormat() {
+            return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by;
         }
     }
 
@@ -65,6 +83,11 @@ public class Iris {
         public String toString() {
             return "[E]" + getStatusIcon() + " " + description + " (from: " + from + " to: " + to + ")";
         }
+
+        @Override
+        public String toSaveFormat() {
+            return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + " | " + to;
+        }
     }
 
     // Custom exception
@@ -75,6 +98,7 @@ public class Iris {
     }
 
 
+    //Main method
     public static void main(String[] args) {
         // Initializing
         String logo = ".___       .__        \n"
@@ -83,6 +107,7 @@ public class Iris {
                 + "|   ||  | \\/  |\\___ \\ \n"
                 + "|___||__|  |__/____  >\n"
                 + "                   \\/ \n";
+        loadTasks();
 
         // Welcome Message
         printLine();
@@ -99,6 +124,8 @@ public class Iris {
             }
         }
     }
+
+    // ========== Command Handlers ==========
 
     // Return false if we should exit
     private static boolean input(String message) throws IrisException {
@@ -189,6 +216,7 @@ public class Iris {
     // Adds a task to the list and prints confirmation
     private static void addTask(Task task) {
         tasks.add(task);
+        saveTasks();
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -226,6 +254,9 @@ public class Iris {
         } catch (NumberFormatException e) {
             throw new IrisException("Invalid number format for mark/unmark command.");
         }
+        finally {
+            saveTasks();
+        }
     }
 
     // Deletes a task from the list based on the index provided
@@ -242,11 +273,75 @@ public class Iris {
         } catch (NumberFormatException e) {
             throw new IrisException("Invalid number format for delete command.");
         }
+        finally {
+            saveTasks();
+        }
     }
 
     // Prints a line for better readability in the console
     // May use more in the future
     private static void printLine() {
         System.out.println("____________________________________________________________");
+    }
+
+    private static void saveTasks() {
+        try {
+            File dir = new File(DATA_DIR);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            FileWriter writer = new FileWriter(DATA_FILE);
+            for (Task task : tasks) {
+                writer.write(task.toSaveFormat() + System.lineSeparator());
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+
+    private static void loadTasks() {
+        File file = new File(DATA_FILE);
+        if (!file.exists()) {
+            return;
+        }
+
+        try (Scanner fileScanner = new Scanner(file)) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                try {
+                    parseTask(line);
+                } catch (Exception e) {
+                    System.out.println("Skipping corrupted line: " + line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading tasks: " + e.getMessage());
+        }
+    }
+
+    private static void parseTask(String line) {
+        String[] parts = line.split(" \\| ");
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+
+        switch (type) {
+            case "T":
+                Todo todo = new Todo(parts[2]);
+                if (isDone) todo.markDone();
+                tasks.add(todo);
+                break;
+            case "D":
+                Deadline dl = new Deadline(parts[2], parts[3]);
+                if (isDone) dl.markDone();
+                tasks.add(dl);
+                break;
+            case "E":
+                Event ev = new Event(parts[2], parts[3], parts[4]);
+                if (isDone) ev.markDone();
+                tasks.add(ev);
+                break;
+        }
     }
 }
