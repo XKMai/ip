@@ -53,4 +53,23 @@ public class TaskList {
             ui.showMessage((i + 1) + "." + tasks.get(i));
         }
     }
+
+    public void find(String keyword, Ui ui) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+
+        if (matchingTasks.isEmpty()) {
+            ui.showMessage("No matching tasks found.");
+            return;
+        }
+
+        ui.showMessage("Here are the matching tasks in your list:");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            ui.showMessage((i + 1) + "." + matchingTasks.get(i));
+        }
+    }
 }

@@ -19,6 +19,10 @@ public abstract class Task {
         return isDone ? "[X]" : "[ ]";
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
     public abstract String toString();
     // Format for saving to file
     public abstract String toSaveFormat();
