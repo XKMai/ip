@@ -1,6 +1,8 @@
 package iris;
 
+// Parses user input and executes corresponding commands
 public class Parser {
+    // Parses the input command and executes it
     public static boolean parse(String input, TaskList tasks, Ui ui, Storage storage) throws IrisException {
         if (input == null || input.isEmpty()) {
             throw new IrisException("Input cannot be empty.");

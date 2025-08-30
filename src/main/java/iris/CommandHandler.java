@@ -1,6 +1,8 @@
 package iris;
 
+// Handles commands like mark, unmark, todo, deadline, event, delete
 public class CommandHandler {
+    // Mark a task as done or undone
     public static void mark(String[] parts, TaskList tasks, Ui ui, Storage storage, boolean done) throws IrisException {
         if (parts.length < 2) {
             throw new IrisException("Please specify a task number.");
@@ -21,6 +23,7 @@ public class CommandHandler {
         }
     }
 
+    // Add a new task (todo, deadline, event)
     public static void addTask(String command, String[] parts, TaskList tasks, Ui ui, Storage storage) throws IrisException {
         if (parts.length < 2) throw new IrisException("Empty description.");
         Task t;
@@ -54,6 +57,7 @@ public class CommandHandler {
         ui.showMessage("Got it. I've added this task:\n  " + t + "\nNow you have " + tasks.size() + " tasks.");
     }
 
+    // Delete a task
     public static void delete(String[] parts, TaskList tasks, Ui ui, Storage storage) throws IrisException {
         if (parts.length < 2) throw new IrisException("Please specify a task number to delete.");
         try {

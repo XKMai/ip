@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+// Parses date-time strings in various formats
 public class DateTimeParser {
     public static LocalDateTime parseDateTime(String input) {
         DateTimeFormatter[] formatters = new DateTimeFormatter[] {
