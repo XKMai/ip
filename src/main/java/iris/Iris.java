@@ -1,10 +1,12 @@
 package iris;
 
+// Main class to run the Iris application
 public class Iris {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    // Initialize Iris with the given file path for storage
     public Iris(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -16,6 +18,7 @@ public class Iris {
         }
     }
 
+    // Main loop to run the application
     public void run() {
         String logo = ".___       .__        \n"
                 + "|   |______|__| ______\n"
