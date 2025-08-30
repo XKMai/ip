@@ -1,6 +1,8 @@
 package iris;
 
+// Parses a line from the save file into a Task object
 public class TaskParser {
+    // Parses a line and returns the corresponding Task
     public static Task parseTask(String line) {
         String[] parts = line.split(" \\| ");
         String type = parts[0];
