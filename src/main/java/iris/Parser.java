@@ -1,3 +1,5 @@
+package iris;
+
 public class Parser {
     public static boolean parse(String input, TaskList tasks, Ui ui, Storage storage) throws IrisException {
         if (input == null || input.isEmpty()) {
