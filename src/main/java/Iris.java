@@ -55,42 +55,48 @@ public class Iris {
     }
 
     private static class Deadline extends Task {
-        private String by;
+        private LocalDateTime by;
 
         public Deadline(String description, String by) {
             super(description);
-            this.by = by;
+            this.by = parseDateTime(by); 
         }
 
         @Override
         public String toString() {
-            return "[D]" + getStatusIcon() + " " + description + " (by: " + by + ")";
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+            return "[D]" + getStatusIcon() + " " + description + " (by: " + by.format(fmt) + ")";
         }
 
         @Override
         public String toSaveFormat() {
-            return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by;
+            return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by.toString();
         }
     }
 
     private static class Event extends Task {
-        private String from;
-        private String to;
+        private LocalDateTime from;
+        private LocalDateTime to;
 
         public Event(String description, String from, String to) {
             super(description);
-            this.from = from;
-            this.to = to;
+            this.from = parseDateTime(from);
+            this.to = parseDateTime(to);
         }
 
         @Override
         public String toString() {
-            return "[E]" + getStatusIcon() + " " + description + " (from: " + from + " to: " + to + ")";
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+            return "[E]" + getStatusIcon() + " " + description 
+                    + " (from: " + from.format(fmt) 
+                    + " to: " + to.format(fmt) + ")";
         }
 
         @Override
         public String toSaveFormat() {
-            return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + " | " + to;
+            return "E | " + (isDone ? "1" : "0") + " | " + description 
+                    + " | " + from.toString() 
+                    + " | " + to.toString();
         }
     }
 
