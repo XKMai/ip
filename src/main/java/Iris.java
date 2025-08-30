@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.io.File;  // Import the File class
 import java.io.IOException;  // Import the IOException class to handle errors
 import java.io.FileWriter;   // Import the FileWriter class to write to files
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Iris {
     private static final String DATA_DIR = "./data";
@@ -51,42 +55,48 @@ public class Iris {
     }
 
     private static class Deadline extends Task {
-        private String by;
+        private LocalDateTime by;
 
         public Deadline(String description, String by) {
             super(description);
-            this.by = by;
+            this.by = parseDateTime(by); 
         }
 
         @Override
         public String toString() {
-            return "[D]" + getStatusIcon() + " " + description + " (by: " + by + ")";
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+            return "[D]" + getStatusIcon() + " " + description + " (by: " + by.format(fmt) + ")";
         }
 
         @Override
         public String toSaveFormat() {
-            return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by;
+            return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by.toString();
         }
     }
 
     private static class Event extends Task {
-        private String from;
-        private String to;
+        private LocalDateTime from;
+        private LocalDateTime to;
 
         public Event(String description, String from, String to) {
             super(description);
-            this.from = from;
-            this.to = to;
+            this.from = parseDateTime(from);
+            this.to = parseDateTime(to);
         }
 
         @Override
         public String toString() {
-            return "[E]" + getStatusIcon() + " " + description + " (from: " + from + " to: " + to + ")";
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+            return "[E]" + getStatusIcon() + " " + description 
+                    + " (from: " + from.format(fmt) 
+                    + " to: " + to.format(fmt) + ")";
         }
 
         @Override
         public String toSaveFormat() {
-            return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + " | " + to;
+            return "E | " + (isDone ? "1" : "0") + " | " + description 
+                    + " | " + from.toString() 
+                    + " | " + to.toString();
         }
     }
 
@@ -343,5 +353,28 @@ public class Iris {
                 tasks.add(ev);
                 break;
         }
+    }
+
+    private static LocalDateTime parseDateTime(String input) {
+        // Try multiple formats in case user input varies
+        DateTimeFormatter[] formatters = new DateTimeFormatter[] {
+            DateTimeFormatter.ofPattern("d/M/yyyy HHmm"),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"),
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME,
+            DateTimeFormatter.ISO_LOCAL_DATE
+        };
+
+        for (DateTimeFormatter f : formatters) {
+            try {
+                // If the user only types a date, assume midnight
+                if (f == DateTimeFormatter.ISO_LOCAL_DATE) {
+                    return LocalDate.parse(input.trim(), f).atStartOfDay();
+                }
+                return LocalDateTime.parse(input.trim(), f);
+            } catch (DateTimeParseException e) {
+                // Try next format
+            }
+        }
+        throw new IllegalArgumentException("Invalid date format: " + input);
     }
 }
