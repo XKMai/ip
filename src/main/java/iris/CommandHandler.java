@@ -1,3 +1,5 @@
+package iris;
+
 public class CommandHandler {
     public static void mark(String[] parts, TaskList tasks, Ui ui, Storage storage, boolean done) throws IrisException {
         if (parts.length < 2) {
