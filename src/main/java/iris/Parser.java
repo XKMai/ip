@@ -36,6 +36,13 @@ public class Parser {
                 CommandHandler.delete(parts, tasks, ui, storage);
                 break;
 
+            case "find":
+                if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                    throw new IrisException("Please provide a keyword to search.");
+                }
+                tasks.find(parts[1].trim(), ui);
+                break;
+
             default:
                 throw new IrisException("Unknown command.");
         }
