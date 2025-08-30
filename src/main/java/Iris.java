@@ -348,4 +348,27 @@ public class Iris {
                 break;
         }
     }
+
+    private static LocalDateTime parseDateTime(String input) {
+        // Try multiple formats in case user input varies
+        DateTimeFormatter[] formatters = new DateTimeFormatter[] {
+            DateTimeFormatter.ofPattern("d/M/yyyy HHmm"),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"),
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME,
+            DateTimeFormatter.ISO_LOCAL_DATE
+        };
+
+        for (DateTimeFormatter f : formatters) {
+            try {
+                // If the user only types a date, assume midnight
+                if (f == DateTimeFormatter.ISO_LOCAL_DATE) {
+                    return LocalDate.parse(input.trim(), f).atStartOfDay();
+                }
+                return LocalDateTime.parse(input.trim(), f);
+            } catch (DateTimeParseException e) {
+                // Try next format
+            }
+        }
+        throw new IllegalArgumentException("Invalid date format: " + input);
+    }
 }
