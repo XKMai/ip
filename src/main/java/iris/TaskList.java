@@ -48,10 +48,11 @@ public class TaskList {
             ui.showMessage("No tasks in the list.");
             return;
         }
-        ui.showMessage("Here are the tasks in your list:");
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {
-            ui.showMessage((i + 1) + "." + tasks.get(i));
+            sb.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
         }
+        ui.showMessage(sb.toString().trim());
     }
 
     public void find(String keyword, Ui ui) {
@@ -67,9 +68,11 @@ public class TaskList {
             return;
         }
 
-        ui.showMessage("Here are the matching tasks in your list:");
+        StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
         for (int i = 0; i < matchingTasks.size(); i++) {
-            ui.showMessage((i + 1) + "." + matchingTasks.get(i));
+            sb.append(i + 1).append(". ").append(matchingTasks.get(i)).append("\n");
         }
+        ui.showMessage(sb.toString().trim());
     }
+
 }

@@ -1,5 +1,7 @@
 package iris;
 
+import java.time.LocalDateTime;
+
 // Handles commands like mark, unmark, todo, deadline, event, delete
 public class CommandHandler {
     // Mark a task as done or undone
@@ -31,19 +33,27 @@ public class CommandHandler {
             case "todo":
                 t = new Todo(parts[1]);
                 break;
+
             case "deadline":
                 String[] dParts = parts[1].split("/by", 2);
-                if (dParts.length < 2) throw new IrisException("Deadline must include /by <time>.");
-                t = new Deadline(dParts[0].trim(), dParts[1].trim());
+                if (dParts.length < 2) throw new IrisException("Deadline must include /by <date>.");
+                LocalDateTime deadlineTime = DateTimeParser.parseDateTime(dParts[1].trim());
+                t = new Deadline(dParts[0].trim(), deadlineTime);
                 break;
+
             case "event":
                 String[] fromSplit = parts[1].split("/from", 2);
                 if (fromSplit.length < 2) throw new IrisException("Event must include /from and /to.");
                 String desc = fromSplit[0].trim();
                 String[] toSplit = fromSplit[1].split("/to", 2);
                 if (toSplit.length < 2) throw new IrisException("Event must include /to.");
-                t = new Event(desc, toSplit[0].trim(), toSplit[1].trim());
+
+                LocalDateTime from = DateTimeParser.parseDateTime(toSplit[0].trim());
+                LocalDateTime to = DateTimeParser.parseDateTime(toSplit[1].trim());
+
+                t = new Event(desc, from, to);
                 break;
+
             default:
                 throw new IrisException("Unknown add command.");
         }
@@ -56,6 +66,7 @@ public class CommandHandler {
         }
         ui.showMessage("Got it. I've added this task:\n  " + t + "\nNow you have " + tasks.size() + " tasks.");
     }
+
 
     // Delete a task
     public static void delete(String[] parts, TaskList tasks, Ui ui, Storage storage) throws IrisException {
