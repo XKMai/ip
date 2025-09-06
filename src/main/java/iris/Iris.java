@@ -1,15 +1,13 @@
 package iris;
 
-// Main class to run the Iris application
 public class Iris {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
-    // Initialize Iris with the given file path for storage
-    public Iris(String filePath) {
+    public Iris() {
+        storage = new Storage("data/iris.txt");
         ui = new Ui();
-        storage = new Storage(filePath);
         try {
             tasks = new TaskList(storage.load());
         } catch (Exception e) {
@@ -18,28 +16,14 @@ public class Iris {
         }
     }
 
-    // Main loop to run the application
-    public void run() {
-        String logo = ".___       .__        \n"
-                + "|   |______|__| ______\n"
-                + "|   \\_  __ \\  |/  ___/\n"
-                + "|   ||  | \\/  |\\___ \\ \n"
-                + "|___||__|  |__/____  >\n"
-                + "                   \\/ \n";
-        ui.showWelcome(logo);
-
-        boolean isRunning = true;
-        while (isRunning) {
-            try {
-                String command = ui.readCommand();
-                isRunning = Parser.parse(command, tasks, ui, storage);
-            } catch (IrisException e) {
-                ui.showError(e.getMessage());
-            }
+    /**
+     * Returns Iris's response to user input.
+     */
+    public String getResponse(String input) {
+        try {
+            return Parser.parse(input, tasks, ui, storage);
+        } catch (IrisException e) {
+            return "Error: " + e.getMessage();
         }
-    }
-
-    public static void main(String[] args) {
-        new Iris("data/iris.txt").run();
     }
 }
