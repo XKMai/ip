@@ -7,9 +7,9 @@ import java.time.format.DateTimeFormatter;
 public class Deadline extends Task {
     private LocalDateTime by;
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, LocalDateTime by) {
         super(description);
-        this.by = DateTimeParser.parseDateTime(by);
+        this.by = by;
     }
 
     @Override
