@@ -1,31 +1,35 @@
 package iris;
 
-// Parses a line from the save file into a Task object
+import java.time.LocalDateTime;
+
 public class TaskParser {
-    // Parses a line and returns the corresponding Task
-    public static Task parseTask(String line) {
+    public static Task parseTask(String line) throws IrisException {
         String[] parts = line.split(" \\| ");
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
+        String description = parts[2];
 
         switch (type) {
-            case "T":
-                Todo todo = new Todo(parts[2]);
-                if (isDone) todo.markDone();
-                return todo;
+        case "T":
+            Task todo = new Todo(description);
+            if (isDone) todo.markDone();
+            return todo;
 
-            case "D":
-                Deadline dl = new Deadline(parts[2], parts[3]);
-                if (isDone) dl.markDone();
-                return dl;
+        case "D":
+            LocalDateTime by = LocalDateTime.parse(parts[3]);
+            Task deadline = new Deadline(description, by);
+            if (isDone) deadline.markDone();
+            return deadline;
 
-            case "E":
-                Event ev = new Event(parts[2], parts[3], parts[4]);
-                if (isDone) ev.markDone();
-                return ev;
+        case "E":
+            LocalDateTime from = LocalDateTime.parse(parts[3]);
+            LocalDateTime to = LocalDateTime.parse(parts[4]);
+            Task event = new Event(description, from, to);
+            if (isDone) event.markDone();
+            return event;
 
-            default:
-                throw new IllegalArgumentException("Unknown task type in file: " + type);
+        default:
+            throw new IrisException("Unknown task type in save file: " + type);
         }
     }
 }
