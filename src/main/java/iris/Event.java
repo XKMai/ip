@@ -8,10 +8,10 @@ public class Event extends Task {
     private LocalDateTime from;
     private LocalDateTime to;
 
-    public Event(String description, String from, String to) {
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
-        this.from = DateTimeParser.parseDateTime(from);
-        this.to = DateTimeParser.parseDateTime(to);
+        this.from = from;
+        this.to = to;
     }
 
     @Override
