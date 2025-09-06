@@ -22,8 +22,8 @@ public class MainWindow extends AnchorPane {
 
     private Iris iris;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image irisImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.jpeg"));
+    private Image irisImage = new Image(this.getClass().getResourceAsStream("/images/Hal.png"));
 
     @FXML
     public void initialize() {
