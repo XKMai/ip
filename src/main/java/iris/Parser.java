@@ -2,7 +2,7 @@ package iris;
 
 // Parses user input and executes corresponding commands
 public class Parser {
-    public static String parse(String input, TaskList tasks, Ui ui, Storage storage) throws IrisException {
+    public static String parse(String input, TaskList tasks, ContactList contacts, Ui ui, Storage storage, ContactStorage contactStorage) throws IrisException {
         assert tasks != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
         assert storage != null : "Storage should not be null";
@@ -57,6 +57,21 @@ public class Parser {
                 throw new IrisException("Please provide a keyword to search.");
             }
             tasks.find(parts[1].trim(), ui);
+            result = ui.getLastMessage();
+            break;
+
+        case "contact-add":
+            CommandHandler.addContact(parts, contacts, ui, contactStorage);
+            result = ui.getLastMessage();
+            break;
+
+        case "contact-delete":
+            CommandHandler.deleteContact(parts, contacts, ui, contactStorage);
+            result = ui.getLastMessage();
+            break;
+
+        case "contacts":
+            CommandHandler.listContacts(contacts, ui);
             result = ui.getLastMessage();
             break;
 
