@@ -55,6 +55,7 @@ public class TaskList {
         ui.showMessage(sb.toString().trim());
     }
 
+    // Finds and lists tasks that contain the given keyword
     public void find(String keyword, Ui ui) {
         List<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {
