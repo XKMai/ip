@@ -113,4 +113,52 @@ public class CommandHandler {
             throw new IrisException("Invalid task number.");
         }
     }
+
+    // Add a new contact
+    public static void addContact(String[] parts, ContactList contacts, Ui ui, ContactStorage storage) throws IrisException {
+        if (parts.length < 2) {
+            throw new IrisException("Please provide contact details in format: name, phone, email");
+        }
+
+        String[] details = parts[1].split(",", 3);
+        if (details.length < 3) {
+            throw new IrisException("Contact must have name, phone number, and email.");
+        }
+
+        Contact c = new Contact(details[0].trim(), details[1].trim(), details[2].trim());
+        contacts.add(c);
+        try {
+            storage.save(contacts.getAll());
+        } catch (Exception e) {
+            ui.showError("Error saving contact.");
+        }
+        ui.showMessage("Got it. I've added this contact:\n  " + c +
+                    "\nNow you have " + contacts.size() + " contacts.");
+    }
+
+    public static void deleteContact(String[] parts, ContactList contacts, Ui ui, ContactStorage storage) throws IrisException {
+        if (parts.length < 2) {
+            throw new IrisException("Please specify a contact number to delete.");
+        }
+        try {
+            int index = Integer.parseInt(parts[1].trim()) - 1;
+            Contact removed = contacts.delete(index);
+            try {
+                storage.save(contacts.getAll());
+            } catch (Exception e) {
+                ui.showError("Error saving contact.");
+            }
+            ui.showMessage("Noted. I've removed this contact:\n  " + removed +
+                        "\nNow you have " + contacts.size() + " contacts.");
+        } catch (Exception e) {
+            throw new IrisException("Invalid contact number.");
+        }
+        
+    }
+
+    public static void listContacts(ContactList contacts, Ui ui) {
+        assert contacts != null : "ContactList should not be null";
+        assert ui != null : "Ui should not be null";
+        contacts.list(ui);
+    }
 }
