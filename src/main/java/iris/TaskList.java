@@ -44,21 +44,38 @@ public class TaskList {
 
     // Lists all tasks with their indices
     public void list(Ui ui) {
+        assert ui != null : "Ui must not be null";
+        assert tasks != null : "Task list must not be null";
+
         if (tasks.isEmpty()) {
             ui.showMessage("No tasks in the list.");
             return;
         }
+
         StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {
-            sb.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
+            Task task = tasks.get(i);
+            assert task != null : "Task at index " + i + " must not be null";
+            sb.append(i + 1).append(". ").append(task).append("\n");
         }
-        ui.showMessage(sb.toString().trim());
+        String output = sb.toString().trim();
+        assert !output.isEmpty() : "List output must not be empty when tasks exist";
+
+        ui.showMessage(output);
     }
 
     public void find(String keyword, Ui ui) {
+        assert ui != null : "Ui must not be null";
+        assert tasks != null : "Task list must not be null";
+        assert keyword != null && !keyword.trim().isEmpty() : "Keyword must not be null or empty";
+
         List<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {
-            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+            assert task != null : "Task in list must not be null";
+            String desc = task.getDescription();
+            assert desc != null : "Task description must not be null";
+
+            if (desc.toLowerCase().contains(keyword.toLowerCase())) {
                 matchingTasks.add(task);
             }
         }
@@ -70,9 +87,13 @@ public class TaskList {
 
         StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
         for (int i = 0; i < matchingTasks.size(); i++) {
-            sb.append(i + 1).append(". ").append(matchingTasks.get(i)).append("\n");
+            Task task = matchingTasks.get(i);
+            assert task != null : "Matching task at index " + i + " must not be null";
+            sb.append(i + 1).append(". ").append(task).append("\n");
         }
-        ui.showMessage(sb.toString().trim());
-    }
+        String output = sb.toString().trim();
+        assert !output.isEmpty() : "Find output must not be empty when matches exist";
 
+        ui.showMessage(output);
+    }
 }
