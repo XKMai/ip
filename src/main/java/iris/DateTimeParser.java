@@ -19,27 +19,36 @@ public class DateTimeParser {
     };
 
     public static LocalDateTime parseDateTime(String input) {
+        assert input != null : "Input to DateTimeParser cannot be null";
+        assert !input.trim().isEmpty() : "Input to DateTimeParser cannot be empty";
+
         String trimmed = input.trim();
 
         // Try full date-time patterns first
         for (DateTimeFormatter f : DATE_TIME_FORMATS) {
             try {
-                return LocalDateTime.parse(trimmed, f);
+                LocalDateTime parsed = LocalDateTime.parse(trimmed, f);
+                assert parsed != null : "Parsed LocalDateTime should not be null";
+                return parsed;
             } catch (DateTimeParseException e) {
                 // continue
             }
         }
 
-        // Try date-only patterns → assume 0000
+        // Try date-only patterns → assume start of day (00:00)
         for (DateTimeFormatter f : DATE_ONLY_FORMATS) {
             try {
-                return LocalDate.parse(trimmed, f).atStartOfDay();
+                LocalDate parsedDate = LocalDate.parse(trimmed, f);
+                assert parsedDate != null : "Parsed LocalDate should not be null";
+                return parsedDate.atStartOfDay();
             } catch (DateTimeParseException e) {
                 // continue
             }
         }
 
-        throw new IllegalArgumentException("Invalid date format: " + input +
-            ". Try formats like: d/M/yyyy (2/12/2019) or d/M/yyyy HHmm (2/12/2019 1800).");
+        throw new IllegalArgumentException(
+            "Invalid date format: " + input +
+            ". Try formats like: d/M/yyyy (2/12/2019) or d/M/yyyy HHmm (2/12/2019 1800)."
+        );
     }
 }
