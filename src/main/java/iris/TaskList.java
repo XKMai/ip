@@ -64,6 +64,7 @@ public class TaskList {
         ui.showMessage(output);
     }
 
+    // Finds and lists tasks that contain the given keyword
     public void find(String keyword, Ui ui) {
         assert ui != null : "Ui must not be null";
         assert tasks != null : "Task list must not be null";
