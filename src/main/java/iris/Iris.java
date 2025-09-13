@@ -1,18 +1,23 @@
 package iris;
 
 public class Iris {
-    private Storage storage;
     private TaskList tasks;
+    private ContactList contacts;
+    private Storage storage;
+    private ContactStorage contactStorage;
     private Ui ui;
 
     public Iris() {
-        storage = new Storage("data/iris.txt");
-        ui = new Ui();
+        this.storage = new Storage("data/iris.txt");
+        this.contactStorage = new ContactStorage("data/contacts.txt");
+        this.ui = new Ui();
         try {
-            tasks = new TaskList(storage.load());
+            this.tasks = new TaskList(storage.load());
+            this.contacts = ContactList.fromStorage(contactStorage);
         } catch (Exception e) {
             ui.showError("Error loading tasks.");
-            tasks = new TaskList();
+            this.tasks = new TaskList();
+            this.contacts = new ContactList();
         }
     }
 
@@ -21,7 +26,7 @@ public class Iris {
      */
     public String getResponse(String input) {
         try {
-            return Parser.parse(input, tasks, ui, storage);
+            return Parser.parse(input, tasks, contacts, ui, storage, contactStorage);
         } catch (IrisException e) {
             return "Error: " + e.getMessage();
         }
