@@ -1,8 +1,8 @@
 package iris;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
 
 public class ContactList {
     private List<Contact> contacts = new ArrayList<>();

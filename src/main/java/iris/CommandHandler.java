@@ -44,7 +44,8 @@ public class CommandHandler {
 
         if (parts.length < 2) throw new IrisException("Empty description.");
         Task t;
-        switch (command) {
+        try {
+            switch (command) {
             case "todo":
                 assert parts[1] != null && !parts[1].trim().isEmpty() : "Todo description should not be empty";
                 t = new Todo(parts[1].trim());
@@ -56,7 +57,7 @@ public class CommandHandler {
                 LocalDateTime deadlineTime = DateTimeParser.parseDateTime(dParts[1].trim());
                 assert deadlineTime != null : "Parsed deadline time should not be null";
                 t = new Deadline(dParts[0].trim(), deadlineTime);
-                break;
+                break;  
 
             case "event":
                 String[] fromSplit = parts[1].split("/from", 2);
@@ -78,6 +79,10 @@ public class CommandHandler {
             default:
                 throw new IrisException("Unknown add command.");
         }
+        } catch (Exception e) {
+            throw new IrisException(e.getMessage());
+        }
+        
 
         tasks.add(t);
         assert tasks.size() > 0 : "Task list size should increase after adding a task";
