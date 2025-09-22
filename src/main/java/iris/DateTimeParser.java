@@ -9,7 +9,9 @@ import java.time.format.DateTimeParseException;
 public class DateTimeParser {
     private static final DateTimeFormatter[] DATE_TIME_FORMATS = new DateTimeFormatter[] {
         DateTimeFormatter.ofPattern("d/M/yyyy HHmm"),   // 2/12/2019 1800
+        DateTimeFormatter.ofPattern("d-M-yyyy HHmm"),   // 2-12-2019 1800
         DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"), // 2019-12-02 1800
+        DateTimeFormatter.ofPattern("yyyy/MM/dd HHmm"), // 2019/12/02 1800
         DateTimeFormatter.ISO_LOCAL_DATE_TIME           // 2019-12-02T18:00
     };
 
